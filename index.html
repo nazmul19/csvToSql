@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html ng-app="csvToSQL">
+<head>
+	<title>Csv to SQL-Query</title>
+	<meta name="description" content="">
+    <meta name="author" content="">
+
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="jquery/jquery-1.7.1.js"></script>
+	
+	
+	<script type="text/javascript" src="csvToArray/jquery.csv-0.71.js"></script>
+	<script type="text/javascript" src="bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="angular/angular.js"></script>
+	<script type="text/javascript" src="ng-clip-master/src/ngClip.js"></script>
+	<script type="text/javascript" src="zeroClipboard/ZeroClipboard.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<style type="text/css">
+		.finalQuery{
+			width: 100%;
+			height: 300px;
+			overflow: auto;
+		}
+		pre{
+		    white-space: pre-wrap;
+		}
+	</style>
+</head>
+<body ng-controller="CsvSQLController">
+	<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Csv-SQL &beta;</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#about" ng-click="aboutEvent()">About</a>
+                    </li>
+                    <li><a href="#contact" ng-click="contactEvent()">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+	<div style="margin-top:50px;">
+		<div ng-show="firstStep">
+			<textarea type="text" ng-model="csvData" class="form-control" cols="10" rows="10" placeholder="paste your csv data"></textarea>
+			<button  class="btn btn-primary pull-right" ng-click="loadCsvData()">Load</button>
+		</div>
+
+		
+		<div ng-show="secondStep">
+			<h2><span class="label label-info">Design Your Query Template.Listed csv column can be used as placeholder in Query by clicking on columnName</span></h2>
+			<div>
+				<ul class="pagination">
+				  <li ng-repeat="item in avlPlaceholder"><a href="" ng-click="appendPlaceHolder(item)">{{item}}</a></li>
+				</ul>
+			</div>		
+			<textarea type="text" class="form-control" ng-model="queryTemplate" placeholder="Write your Query" ng-change="queryTemplateChangeEvent()"></textarea>
+			<h3><span class="label label-info">Query Template Priview</span></h3>
+			<pre>{{ queryTemplate }}</pre>
+			<button type="button" class="btn btn-primary pull-left" ng-click="reLoad()">Load Again</button>
+			<button type="button" class="btn btn-primary pull-right" ng-click="queryPage()">Generate Query</button>
+		</div>
+		
+		<div ng-show="finalStep">
+			<div>
+				<h3><span class="label label-info">Sample SQL-Query</span></h3>
+				<pre ng-show="testFinalQuery !=''">{{ testFinalQuery }}</pre>	
+			</div>
+			<button type="button" class="btn btn-primary pull-left" ng-click="modifyQueryTpl()">Modify Template</button>
+			<button type="button" class="btn btn-primary pull-right" ng-click="generateAllQuery()">Generate All Query</button>
+			 
+			<div class="finalQuery">
+				<h3><span class="label label-info">Final SQL-Query</span></h3>
+				<span ng-show="finalQuery !=''" class="label label-info pull-right">
+					<!-- <a href="" clip-copy="getTextToCopy()" clip-click="doSomething()">Copy to clipboard</a> -->
+				</span>
+				<pre  id="finalQueryOutput" ng-show="finalQuery !=''">{{ finalQuery }}</pre>
+			</div>		
+		</div>
+
+		<div ng-show="aboutPageRequest">
+			<div class="container">
+				<h1>Csv to Sql Query</h1>
+			<p>Some times we need such as tool that give me flexibility to write sql query over csv content.Here i am trying to solve same problem without server interaction.</p>	
+			</div>
+			
+		</div>
+
+		<div ng-show="contactPageRequest">
+			<div class="container">
+				<div class="controls">
+				    <div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>
+						<span>Md Nazmul Hassan</span>
+					</span>
+						
+					</div>
+				</div>
+				<div class="controls">
+				    <div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i>
+						<span>nazmulhassan2@gmail.com</span>
+					</span>
+					</div>
+				</div>
+				<div class="controls">
+				    <div class="input-group">
+					<span class="input-group-addon">
+						<a href="http://in.linkedin.com/pub/nazmul-hassan/17/a59/173/" target="_blank"><img src="linkedin.png"/></a>
+					</span>
+					</div>
+				</div>
+				<div class="controls">
+				    <div class="input-group">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-globe"></i>
+						<a href="http://nazmulhassan.strikingly.com/" target="_blank">Profile</a>
+					</span>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	
+	</hr>
+	</br>
+	<div class="footer">
+      <div class="container">
+        <p class="text-muted">Csv-SQL &beta; Developer By Md Nazmul Hassan</p>
+      </div>
+    </div>
+	
+</body>
+</html>
